@@ -21,32 +21,33 @@ const sample = array => array[Math.floor(Math.random() * array.length)];
 
 const seedDB = async () => {
     await Campground.deleteMany({});
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < 300; i++) {
         const random1000 = Math.floor(Math.random() * 1000);
         const price = Math.floor(Math.random() * 20) + 10;
         const camp = new Campground({
-            author: '5fc7981377d19a117ca4913d',
+            //YOUR USER ID
+            author: '5f5c330c2cd79d538f2c66d9',
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
             title: `${sample(descriptors)} ${sample(places)}`,
-            images: [
-                {
-                    url: 'https://res.cloudinary.com/dcykyv4ye/image/upload/v1607097010/YelpCamp/bptsvidvkgoaklvocut2.jpg',
-                    filename: 'YelpCamp/bptsvidvkgoaklvocut2'
-                },
-                {
-                    url: 'https://res.cloudinary.com/dcykyv4ye/image/upload/v1607163739/YelpCamp/jwuhoubb6s0fnc6faoyw.jpg',
-                    filename: 'YelpCamp/jwuhoubb6s0fnc6faoyw'
-                }
-            ],
+            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dolores vero perferendis laudantium, consequuntur voluptatibus nulla architecto, sit soluta esse iure sed labore ipsam a cum nihil atque molestiae deserunt!',
+            price,
             geometry: {
+                type: "Point",
                 coordinates: [
                     cities[random1000].longitude,
                     cities[random1000].latitude,
-                ],
-                type: 'Point',
+                ]
             },
-            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dolores vero perferendis laudantium, consequuntur voluptatibus nulla architecto, sit soluta esse iure sed labore ipsam a cum nihil atque molestiae deserunt!',
-            price
+            images: [
+                {
+                    url: 'https://res.cloudinary.com/douqbebwk/image/upload/v1600060601/YelpCamp/ahfnenvca4tha00h2ubt.png',
+                    filename: 'YelpCamp/ahfnenvca4tha00h2ubt'
+                },
+                {
+                    url: 'https://res.cloudinary.com/douqbebwk/image/upload/v1600060601/YelpCamp/ruyoaxgf72nzpi4y6cdi.png',
+                    filename: 'YelpCamp/ruyoaxgf72nzpi4y6cdi'
+                }
+            ]
         })
         await camp.save();
     }

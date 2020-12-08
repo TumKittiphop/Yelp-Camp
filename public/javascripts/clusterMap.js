@@ -1,11 +1,15 @@
-
 mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
-    container: 'map',
+    container: 'cluster-map',
     style: 'mapbox://styles/mapbox/light-v10',
     center: [-103.59179687498357, 40.66995747013945],
     zoom: 3
 });
+
+map.addControl(new mapboxgl.NavigationControl());
+
+
+
 
 map.on('load', function () {
     // Add a new source from our GeoJSON data and
@@ -15,8 +19,7 @@ map.on('load', function () {
         type: 'geojson',
         // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
         // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
-        data:
-            campgrounds,
+        data: campgrounds,
         cluster: true,
         clusterMaxZoom: 14, // Max zoom to cluster points on
         clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
@@ -36,19 +39,19 @@ map.on('load', function () {
             'circle-color': [
                 'step',
                 ['get', 'point_count'],
-                '#d0e8f2',
+                '#00BCD4',
                 10,
-                '#79a3b1',
-                20,
-                '#456268'
+                '#2196F3',
+                30,
+                '#3F51B5'
             ],
             'circle-radius': [
                 'step',
                 ['get', 'point_count'],
-                10,
+                15,
                 10,
                 20,
-                20,
+                30,
                 25
             ]
         }
@@ -103,9 +106,9 @@ map.on('load', function () {
     // the location of the feature, with
     // description HTML from its properties.
     map.on('click', 'unclustered-point', function (e) {
-        const coordinates = e.features[0].geometry.coordinates.slice();
         const { popUpMarkup } = e.features[0].properties;
-        console.log(e.features[0].properties)
+        const coordinates = e.features[0].geometry.coordinates.slice();
+
         // Ensure that if the map is zoomed out such that
         // multiple copies of the feature are visible, the
         // popup appears over the copy being pointed to.
@@ -115,9 +118,7 @@ map.on('load', function () {
 
         new mapboxgl.Popup()
             .setLngLat(coordinates)
-            .setHTML(
-                popUpMarkup
-            )
+            .setHTML(popUpMarkup)
             .addTo(map);
     });
 
@@ -128,3 +129,4 @@ map.on('load', function () {
         map.getCanvas().style.cursor = '';
     });
 });
+
